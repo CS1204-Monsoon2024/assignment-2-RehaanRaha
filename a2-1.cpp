@@ -22,27 +22,31 @@ private:
     Node* tail;       // tail pointer
     int size;         // no. of nodes in LL
     int hashValue;    // Hash value for the entire list
-    const int prime = 31;  // Prime number used for hashing
+    const int prime = 43;  // Any prime works here, I choose you, 43!
 
 public:
-    // Constructor to initialize an empty linked list
+    // Initialising Empty LinkedList with head and tail as nullptr
     HashLinkedList() : head(nullptr), tail(nullptr), size(0), hashValue(0) {}
 
     // Insert function
     void insert(int val) {
+        
         Node* newNode = new Node(val);
-        if (!head) {  // Check if the list is empty
-            head = tail = newNode;  // The new node is the head and the tail since the list is empty
-        } else {
-            tail->next = newNode;
+        if (!head) {  // Checking for empty list
+            head = newNode;
+            tail = newNode;  // The new node is the head and the tail since the list is empty
+        } 
+        else 
+        {
+            tail->next = newNode; // Insert the new node at the end of the list
             tail = newNode;
         }
         size++;
-        updateHash(val);  // Update hash whenever a new node is inserted
+        HashUpdated(val);  // Calculate new hash value after insertion
     }
 
     // Function to update the hash value as we insert new elements
-    void updateHash(int val) {
+    void HashUpdated(int val) {
         // Hash computation using a rolling hash method
         hashValue = (hashValue * prime + val) % m;
     }
@@ -108,7 +112,7 @@ public:
         hashValue = 0;  // Reset hash for each element
         Node* temp = head; // set the current node to temp
         while (temp) { // iterate through the list 
-            updateHash(temp->data);  // Update hash for this particular element
+            HashUpdated(temp->data);  // Update hash for this particular element
             temp = temp->next;
         }
     }

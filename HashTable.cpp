@@ -10,7 +10,7 @@ private:
     int m;              // The size of the hash table
     int numElements;    // The number of elements in the hash table
     double loadFactor_threshold = 0.8;  // The load factor of the hash table
-
+    int max_probe_attempts = 50;
 
     // Hash function: h(k) = k % m
     int hashFunction(int key) {
@@ -20,8 +20,8 @@ private:
     // Prime checker function
     bool isPrime(int n) {
         if (n <= 1) return false;
-        if (n = 2) return true;
-        if (n = 3) return true;
+        if (n == 2) return true;
+        if (n == 3) return true;
         if (n % 2 == 0) return false;
         if (n % 3 == 0) return false;
 
@@ -79,6 +79,11 @@ public:
             resizeTable(); 
         }
 
+        if (search(key) != -1) {
+            cout << "Duplicate key insertion is not allowed" << endl;
+            return;
+        } 
+
         int index = hashFunction(key); // Gotta get the Index Key
         int i = 0;
         int newIndex = index;
@@ -86,6 +91,11 @@ public:
         // Quadtratic probing to find empty slot
         while (table[newIndex] != -1) {
             i++;
+            if (i > max_probe_attempts){
+                cout << "Max probing limit reached!" << endl;
+                return;
+            }
+
             newIndex = (index + i * i) % m; // Quadratic probing done right unlike my quiz
         }
 
@@ -102,43 +112,39 @@ public:
 
         while (table[newIndex] != -1) {
             if(table[newIndex] == key) {
-                return true; // Found the key!
+                return newIndex; // Found the key!
             }
             i++;
             newIndex = (index + i * i) % m; // Same Quadratic probing
         }
 
-        return false; // Not found :(
+        return -1; // Not found :(
     }
 
     // Remove Function
     
     void remove(int key) {
-        int index = hashFunction(key);
-        int i = 0;
-        int newIndex = index;
+        int index = search(key);
 
-        // Quadratic probing to find the key
-        while (table[newIndex] != -1) {
-            if (table[newIndex] == key) {
-                table[newIndex] = -1; // Marking cell as empty
-                numElements--; // Decrement number of elements
-                return;
-            }
-            i++;
-            newIndex = (index + i * i) % m;
+        if (index == -1) {
+            cout << "Element not found" << endl;
+            return;
         }
-        cout << "Key " << key << " not found" << endl;
+
+        table[index] = -1; // Marking cell as empty
+        numElements--; // Decrement number of elements
     }
+
+    
 
 
     // Displaying the hash table
     void printTable() {
         for (int i = 0; i < m; ++i) {
             if (table[i] == -1)
-                cout << i << ": " << "Empty" << endl;
+                cout << "- ";
             else
-                cout << i << ": " << table[i] << endl;
+                cout << table[i] << " ";
         }
     }
 };
