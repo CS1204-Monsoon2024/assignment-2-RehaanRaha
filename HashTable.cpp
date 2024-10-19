@@ -44,8 +44,6 @@ private:
         int old_m = m;
         m = nextPrime(2 * old_m); // Double and finding next nearest prime
 
-        cout << "Table resized from" << old_m << "to" << m << endl;
-
         vector<int> old_table = table;
         table.clear();
         table.resize(m, -1); // Initialize the new table with -1
