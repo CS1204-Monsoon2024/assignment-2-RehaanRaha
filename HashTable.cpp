@@ -104,7 +104,7 @@ public:
 
     // Search Function
 
-    bool search(int key) {
+    int search(int key) {
         int index = hashFunction(key); 
         int i = 0;
         int newIndex = index;
