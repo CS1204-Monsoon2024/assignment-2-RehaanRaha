@@ -86,12 +86,12 @@ public:
         // Quadtratic probing to find empty slot
         while (table[newIndex] != -1) {
             if (table[newIndex] == key) {
-                cout << "Duplicate key insertion is not allowed" << endl;
+                cout << "Duplicate key insertion is not allowed\n" << endl;
                 return;
             }
             i++;
             if (i > max_probe_attempts){
-                cout << "Max probing limit reached!" << endl;
+                cout << "Max probing limit reached!\n" << endl;
                 return;
             }
 
@@ -126,7 +126,7 @@ public:
         int index = search(key);
 
         if (index == -1) {
-            cout << "Element not found" << endl;
+            cout << "Element not found\n" << endl;
             return;
         }
 
@@ -145,6 +145,7 @@ public:
             else
                 cout << table[i] << " ";
         }
+        cout << "\n";
     }
 };
 
