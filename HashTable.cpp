@@ -79,17 +79,16 @@ public:
             resizeTable(); 
         }
 
-        if (search(key) != -1) {
-            cout << "Duplicate key insertion is not allowed" << endl;
-            return;
-        } 
-
         int index = hashFunction(key); // Gotta get the Index Key
         int i = 0;
         int newIndex = index;
 
         // Quadtratic probing to find empty slot
         while (table[newIndex] != -1) {
+            if (table[newIndex] == key) {
+                cout << "Duplicate key insertion is not allowed" << endl;
+                return;
+            }
             i++;
             if (i > max_probe_attempts){
                 cout << "Max probing limit reached!" << endl;
